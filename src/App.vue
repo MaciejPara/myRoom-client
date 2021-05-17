@@ -1,22 +1,20 @@
 <template>
-    <!--<Navigation />-->
-    <!--<Main />-->
+    <Navigation />
+    <router-view />
 </template>
 
 <script>
-// import Navigation from "./components/Navigation.vue";
-// import Main from "./components/Main.vue";
+import Navigation from "./components/Navigation";
 
 export default {
     name: "App",
     components: {
-        // Navigation,
-        // Main,
+        Navigation,
     },
 };
 </script>
 
-<style>
+<style lang="scss">
 * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -32,5 +30,28 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
+}
+
+#nav {
+    padding: 30px;
+
+    a {
+        font-weight: bold;
+        color: #2c3e50;
+
+        &.router-link-exact-active {
+            color: #42b983;
+        }
+    }
+}
+.container {
+    padding: 50px 10%;
+
+    .filters {
+        padding: 30px 0;
+        background-color: rgba(255, 165, 0, 0.15);
+
+        text-align: center;
+    }
 }
 </style>

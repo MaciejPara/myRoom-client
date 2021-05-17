@@ -1,11 +1,11 @@
 <template>
-    <div class="offersList">
+    <div class="container offersList">
         <OffersListItem v-for="item in offers" :key="item.id" :data="item" />
     </div>
 </template>
 
 <script>
-import OffersListItem from "./OffersListItem";
+import OffersListItem from "../components/OffersListItem";
 export default {
     name: "Main",
     components: { OffersListItem },

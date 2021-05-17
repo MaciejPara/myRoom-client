@@ -37,7 +37,7 @@ export default {
             return this.data?.img || "https://via.placeholder.com/250x150";
         },
         getHref() {
-            return `/${this.data?.id}`;
+            return `/offers/${this.data?.id}`;
         },
     },
 };
