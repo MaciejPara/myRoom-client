@@ -13,72 +13,9 @@ export default {
         OffersList,
     },
     methods: {
-        bookRoom({ currentTarget: { id } }) {
-            console.log(id);
-        },
+        // bookRoom({ currentTarget: { id } }) {
+        //     console.log(id);
+        // },
     },
 };
 </script>
-
-<!--<style lang="scss" scoped="true">-->
-<!--.detailsHeader {-->
-<!--display: flex;-->
-
-<!--.detailsHeader__text {-->
-<!--color: orange;-->
-<!--font-size: 2rem;-->
-<!--}-->
-<!--.detailsHeader__button {-->
-<!--display: inline-block;-->
-<!--height: max-content;-->
-<!--margin: auto 0 auto auto;-->
-
-<!--border: none;-->
-<!--background-color: rgba(0, 163, 219, 0.82);-->
-<!--color: #fff;-->
-<!--padding: 8px 35px;-->
-<!--font-size: 20px;-->
-<!--border-radius: 10px;-->
-<!--cursor: pointer;-->
-
-<!--&:hover {-->
-<!--background-color: rgba(0, 185, 255, 0.82);-->
-<!--color: rgb(0, 131, 190);-->
-
-<!-- -webkit-transition: ease 0.1s;-->
-<!-- -moz-transition: ease 0.1s;-->
-<!-- -ms-transition: ease 0.1s;-->
-<!-- -o-transition: ease 0.1s;-->
-<!--transition: ease 0.1s;-->
-<!--}-->
-<!--}-->
-<!--}-->
-<!--.detailsContent {-->
-<!--width: 100%;-->
-<!--.detailsContent__imgContainer img {-->
-<!--width: 100%;-->
-<!--}-->
-<!--.detailsContent__address {-->
-<!--color: gray;-->
-<!--font-size: 0.8rem;-->
-<!--margin: 0;-->
-<!--}-->
-<!--.detailsContent__facilities {-->
-<!--grid-template-columns: 50px 50px 50px;-->
-<!--grid-template-rows: auto;-->
-<!--column-gap: 10px;-->
-<!--row-gap: 15px;-->
-<!--align-items: stretch;-->
-
-<!--.detailsContent__facilitiesItem {-->
-<!--display: inline-grid;-->
-<!--height: 100px;-->
-<!--width: 100px;-->
-<!--border: 1px solid red;-->
-<!--text-align: center;-->
-<!--vertical-align: middle;-->
-<!--margin: auto;-->
-<!--}-->
-<!--}-->
-<!--}-->
-<!--</style>-->

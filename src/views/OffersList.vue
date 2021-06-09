@@ -11,12 +11,11 @@ export default {
     components: { OffersListItem },
     data() {
         return {
-            offers: new Array(10).fill().map((item, key) => ({
-                id: key,
-                hotelName: "test hotem name",
-                shortDescription: "short description lorem",
-            })),
+            offers: [],
         };
+    },
+    mounted() {
+        this.offers = this.$store.state.offers;
     },
 };
 </script>

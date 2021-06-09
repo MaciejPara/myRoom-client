@@ -1,12 +1,15 @@
 <template>
     <div class="container details">
-        <div>
+        <div class="detailsPriceContainer">
             <router-link class="goBackLink" to="/offers">
                 Go back
             </router-link>
+            <p class="detailsPrice">
+                {{ data.pricePerDay }} {{ data.currency }}/day
+            </p>
         </div>
         <div class="detailsHeader">
-            <h2 class="detailsHeader__text">Hotel & Room name</h2>
+            <h2 class="detailsHeader__text">{{ data.hotelName }}</h2>
             <button
                 class="detailsHeader__button"
                 :id="0"
@@ -19,16 +22,19 @@
             <div class="detailsContent__address">
                 <p>
                     <img src="https://via.placeholder.com/20x20" alt="icon" />
-                    <span> 23/6 Stare Miasto, 00-000, Kraków</span>
+                    <span> {{ data.address }}</span>
                 </p>
             </div>
             <div class="detailsContent__imgContainer">
-                <img src="https://via.placeholder.com/1024x400" alt="" />
+                <img
+                    src="https://via.placeholder.com/1024x400"
+                    alt="main img"
+                />
             </div>
             <div class="detailsContent__facilities">
                 <div
                     class="detailsContent__facilitiesItem"
-                    v-for="(facility, index) in facilities"
+                    v-for="(facility, index) in data.facilities"
                     :key="index"
                 >
                     <i
@@ -52,29 +58,33 @@ export default {
     data() {
         return {
             isModalVisible: false,
-            facilities: [
-                {
-                    name: "WiFi",
-                    iconClass: "fa-wifi",
-                },
-                {
-                    name: "Animals",
-                    iconClass: "fa-paw",
-                },
-                {
-                    name: "Bath",
-                    iconClass: "fa-bath",
-                },
-            ],
+            data: {},
+            hiddenString: "hidden",
         };
     },
     methods: {
         showModalTrigger() {
+            this.toggleScroll();
             this.isModalVisible = true;
         },
         closeModal() {
+            this.toggleScroll();
             this.isModalVisible = false;
         },
+        toggleScroll() {
+            const overflow = document.body.style.overflow;
+
+            if (overflow !== this.hiddenString)
+                document.body.style.overflow = this.hiddenString;
+            else document.body.style.overflow = "auto";
+        },
+    },
+    mounted() {
+        const data = this.$store.getters.getOffer(this.$route.params.id);
+
+        if (data) {
+            this.data = data;
+        }
     },
 };
 </script>
@@ -141,10 +151,20 @@ export default {
         }
     }
 
-    .goBackLink {
-        margin: 0 auto 0 0;
-        display: inline-block;
-        width: auto;
+    .detailsPriceContainer {
+        display: flex;
+
+        .goBackLink {
+            margin: auto 0;
+            display: inline-block;
+            width: auto;
+            font-size: 1.5rem;
+        }
+
+        .detailsPrice {
+            margin-left: auto;
+            font-size: 2.5rem;
+        }
     }
 }
 </style>

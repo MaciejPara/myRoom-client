@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <h1 class="home__header">
-            Rezerwuj pokoje w najlepszych cenach
+            Get room with the best price
             <i class="fas fa-exclamation"></i>
         </h1>
     </div>

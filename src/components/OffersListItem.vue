@@ -6,6 +6,7 @@
         <div class="offersList__itemInfo">
             <p>{{ data.hotelName }}</p>
             <p>{{ data.shortDescription }}</p>
+            <p>Price: {{ data.pricePerDay }} {{ data.currency }}</p>
             <p><a :href="getHref">See more..</a></p>
         </div>
     </div>
@@ -25,6 +26,12 @@ export default {
                 type: String,
             },
             hotelName: {
+                type: String,
+            },
+            pricePerDay: {
+                type: Number,
+            },
+            currency: {
                 type: String,
             },
             shortDescription: {

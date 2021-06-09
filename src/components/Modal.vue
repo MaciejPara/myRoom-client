@@ -5,24 +5,49 @@
                 <div class="modal-container">
                     <div class="modal-header">
                         <slot name="header">
-                            default header
+                            <h2>Order</h2>
                         </slot>
                     </div>
 
                     <div class="modal-body">
                         <slot name="body">
-                            default body
+                            <h3 class="field">Fill required data:</h3>
+                            <div class="field">
+                                <input v-model="name" placeholder="name" />
+                            </div>
+                            <div class="field">
+                                <input
+                                    v-model="surname"
+                                    placeholder="surname"
+                                />
+                            </div>
+                            <div class="field">
+                                <input v-model="email" placeholder="email" />
+                            </div>
+                            <div class="field">
+                                <h3>Choose date:</h3>
+                                <v-date-picker
+                                    locale="en"
+                                    v-model="date"
+                                    :is-range="true"
+                                />
+                            </div>
                         </slot>
                     </div>
 
                     <div class="modal-footer">
                         <slot name="footer">
-                            default footer
                             <button
                                 class="modal-default-button"
                                 @click="$emit('close-modal')"
                             >
-                                OK
+                                Submit
+                            </button>
+                            <button
+                                class="modal-default-button modal-default-button__cancel"
+                                @click="$emit('close-modal')"
+                            >
+                                Cancel
                             </button>
                         </slot>
                     </div>
@@ -40,6 +65,14 @@ export default {
             type: Boolean,
             default: false,
         },
+    },
+    data() {
+        return {
+            date: new Date(),
+            name: "",
+            surname: "",
+            email: "",
+        };
     },
 };
 </script>
@@ -63,8 +96,9 @@ export default {
 }
 
 .modal-container {
-    width: 300px;
-    margin: 0px auto;
+    max-width: 800px;
+    width: 95%;
+    margin: 0 auto;
     padding: 20px 30px;
     background-color: #fff;
     border-radius: 2px;
@@ -80,20 +114,71 @@ export default {
 
 .modal-body {
     margin: 20px 0;
+
+    .field {
+        margin: auto;
+        width: 50%;
+        padding: 0 0 10px 0;
+
+        input {
+            width: 100%;
+            font-size: 1.2rem;
+        }
+    }
 }
 
-.modal-default-button {
-    float: right;
-}
+.modal-footer {
+    height: 30px;
+    display: flex;
 
-/*
-     * The following styles are auto-applied to elements with
-     * transition="modal" when their visibility is toggled
-     * by Vue.js.
-     *
-     * You can easily play with the modal transition by editing
-     * these styles.
-     */
+    .modal-default-button {
+        margin: auto 10px auto auto;
+
+        display: inline-block;
+        height: max-content;
+
+        border: none;
+        background-color: rgba(0, 163, 219, 0.82);
+        color: #fff;
+        padding: 8px 35px;
+        font-size: 20px;
+        border-radius: 10px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(0, 185, 255, 0.82);
+            color: rgb(0, 131, 190);
+
+            -webkit-transition: ease 0.1s;
+            -moz-transition: ease 0.1s;
+            -ms-transition: ease 0.1s;
+            -o-transition: ease 0.1s;
+            transition: ease 0.1s;
+        }
+
+        &__cancel {
+            margin: auto auto auto 10px;
+
+            background-color: rgba(181, 198, 219, 0.82);
+            color: #fff;
+            padding: 8px 35px;
+            font-size: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(181, 198, 219, 0.82);
+                color: rgb(0, 131, 190);
+
+                -webkit-transition: ease 0.1s;
+                -moz-transition: ease 0.1s;
+                -ms-transition: ease 0.1s;
+                -o-transition: ease 0.1s;
+                transition: ease 0.1s;
+            }
+        }
+    }
+}
 
 .modal-enter {
     opacity: 0;
