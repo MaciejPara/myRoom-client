@@ -12,10 +12,5 @@ export default {
     components: {
         OffersList,
     },
-    methods: {
-        // bookRoom({ currentTarget: { id } }) {
-        //     console.log(id);
-        // },
-    },
 };
 </script>

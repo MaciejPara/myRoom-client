@@ -7,7 +7,11 @@
             <p>{{ data.hotelName }}</p>
             <p>{{ data.shortDescription }}</p>
             <p>Price: {{ data.pricePerDay }} {{ data.currency }}</p>
-            <p><a :href="getHref">See more..</a></p>
+            <p>
+                <router-link class="nav__item" :to="getHref"
+                    >See more..</router-link
+                >
+            </p>
         </div>
     </div>
 </template>
@@ -61,6 +65,7 @@ export default {
         display: inline-flex;
         img {
             margin: auto;
+            max-width: 250px;
         }
     }
 

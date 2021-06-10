@@ -23,13 +23,13 @@
                 <p>
                     <img src="https://via.placeholder.com/20x20" alt="icon" />
                     <span> {{ data.address }}</span>
+                    <span class="detailsContent__rate">
+                        Rate: {{ data.rate }}/5
+                    </span>
                 </p>
             </div>
             <div class="detailsContent__imgContainer">
-                <img
-                    src="https://via.placeholder.com/1024x400"
-                    alt="main img"
-                />
+                <img :src="data.img" alt="main img" />
             </div>
             <div class="detailsContent__facilities">
                 <div
@@ -43,8 +43,18 @@
                     ></i>
                 </div>
             </div>
+            <div class="detailsContent__description">
+                <h2>About us</h2>
+                <p>
+                    {{ data.description }}
+                </p>
+            </div>
         </div>
-        <Modal :isVisible="isModalVisible" @close-modal="closeModal" />
+        <Modal
+            :isVisible="isModalVisible"
+            @close-modal="closeModal"
+            @submit="onSubmit"
+        />
     </div>
 </template>
 
@@ -73,14 +83,64 @@ export default {
         },
         toggleScroll() {
             const overflow = document.body.style.overflow;
+            let newOverflow = "auto";
 
-            if (overflow !== this.hiddenString)
-                document.body.style.overflow = this.hiddenString;
-            else document.body.style.overflow = "auto";
+            if (overflow !== this.hiddenString) {
+                newOverflow = this.hiddenString;
+            }
+
+            document.body.style.overflow = newOverflow;
+        },
+        isEmailValid(email) {
+            return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+                email
+            );
+        },
+        isDateValid(date) {
+            return date;
+        },
+        onSubmit({ email, date, ...rest }) {
+            const defaultRequired = "is required";
+            const result = rest;
+            const error = {};
+
+            if (this.isEmailValid(email)) {
+                result.email = email;
+            } else {
+                error.email = `Email ${defaultRequired}`;
+            }
+
+            if (this.isDateValid(date)) {
+                result.date = date;
+            }
+
+            console.log(">>> out ::", result);
+
+            this.closeModal();
+        },
+        sendDataToAPI(data) {
+            console.log("sent to api ::: ", data);
+        },
+        async getOfferFromAPI() {
+            let result;
+
+            try {
+                const req = await fetch(
+                    `http://127.0.0.1:3000/room/${this.$route.params.id}`
+                );
+
+                result = await req.json();
+            } catch (e) {
+                console.error(e);
+            }
+
+            return result;
         },
     },
-    mounted() {
-        const data = this.$store.getters.getOffer(this.$route.params.id);
+    async mounted() {
+        const data =
+            this.$store.getters.getOffer(this.$route.params.id) ||
+            (await this.getOfferFromAPI());
 
         if (data) {
             this.data = data;
@@ -132,6 +192,25 @@ export default {
             color: gray;
             font-size: 0.8rem;
             margin: 0;
+
+            p {
+                display: flex;
+                * {
+                    margin-top: auto;
+                    margin-bottom: auto;
+                }
+
+                img {
+                    margin-right: 10px;
+                }
+            }
+        }
+        .detailsContent__rate {
+            margin-left: auto;
+            font-size: 1.5rem;
+            color: #fff;
+            background-color: orange;
+            padding: 5px 10px;
         }
         .detailsContent__facilities {
             grid-template-columns: 50px 50px 50px;

@@ -39,13 +39,13 @@
                         <slot name="footer">
                             <button
                                 class="modal-default-button"
-                                @click="$emit('close-modal')"
+                                @click="submit"
                             >
                                 Submit
                             </button>
                             <button
                                 class="modal-default-button modal-default-button__cancel"
-                                @click="$emit('close-modal')"
+                                @click="close"
                             >
                                 Cancel
                             </button>
@@ -73,6 +73,27 @@ export default {
             surname: "",
             email: "",
         };
+    },
+    methods: {
+        clearForm() {
+            Object.assign(this.$data, this.$options.data());
+        },
+        close() {
+            this.$emit("close-modal");
+            this.clearForm();
+        },
+        submit() {
+            const { name, surname, email, date } = this;
+
+            this.$emit("submit", {
+                name,
+                surname,
+                email,
+                date,
+            });
+
+            this.clearForm();
+        },
     },
 };
 </script>
