@@ -14,4 +14,9 @@ export default [
         name: 'Offer details',
         component: import('../views/OfferDetails.vue')
     },
+    {
+        path: '/rate/:offerId/:orderId/:rate',
+        name: 'Offer rate',
+        component: import('../views/OfferRate.vue')
+    },
 ];

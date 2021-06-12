@@ -24,7 +24,7 @@
                     <img src="https://via.placeholder.com/20x20" alt="icon" />
                     <span> {{ data.address }}</span>
                     <span class="detailsContent__rate">
-                        Rate: {{ data.rate }}/5
+                        Rate: {{ data.rate?.toFixed(1) }}/5
                     </span>
                 </p>
             </div>
@@ -51,9 +51,13 @@
             </div>
         </div>
         <Modal
-            :isVisible="isModalVisible"
+            :is-visible="isModalVisible"
             @close-modal="closeModal"
             @submit="onSubmit"
+            :success-message="successMessage"
+            :error-message="errorMessage"
+            :price-per-day="data.pricePerDay"
+            :currency="data.currency"
         />
     </div>
 </template>
@@ -70,6 +74,9 @@ export default {
             isModalVisible: false,
             data: {},
             hiddenString: "hidden",
+            successMessage: "",
+            errorMessage: "",
+            messageTimeout: 2500,
         };
     },
     methods: {
@@ -80,6 +87,8 @@ export default {
         closeModal() {
             this.toggleScroll();
             this.isModalVisible = false;
+            this.successMessage = "";
+            this.errorMessage = "";
         },
         toggleScroll() {
             const overflow = document.body.style.overflow;
@@ -100,8 +109,12 @@ export default {
             return date;
         },
         onSubmit({ email, date, ...rest }) {
+            const { offerId } = this;
             const defaultRequired = "is required";
-            const result = rest;
+            const result = {
+                ...rest,
+                offerId,
+            };
             const error = {};
 
             if (this.isEmailValid(email)) {
@@ -114,19 +127,46 @@ export default {
                 result.date = date;
             }
 
-            console.log(">>> out ::", result);
-
-            this.closeModal();
+            if (Object.keys(error).length === 0) {
+                this.sendDataToAPI(result);
+            }
+            // this.closeModal();
         },
-        sendDataToAPI(data) {
+        async sendDataToAPI(data) {
             console.log("sent to api ::: ", data);
+
+            try {
+                const req = await fetch(`http://127.0.0.1:3000/order`, {
+                    method: "post",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+                await req.json();
+
+                if (req.ok) {
+                    this.successMessage =
+                        "Order successfully processed. Please check your email to see more details.";
+                } else {
+                    this.errorMessage =
+                        "Something went wrong, please try again later.";
+                }
+
+                setTimeout(() => {
+                    this.closeModal();
+                }, this.messageTimeout);
+            } catch (e) {
+                console.error(e);
+            }
         },
         async getOfferFromAPI() {
             let result;
 
             try {
                 const req = await fetch(
-                    `http://127.0.0.1:3000/room/${this.$route.params.id}`
+                    `http://127.0.0.1:3000/room/${this.offerId}`
                 );
 
                 result = await req.json();
@@ -138,8 +178,10 @@ export default {
         },
     },
     async mounted() {
+        this.offerId = this.$route.params.id;
+
         const data =
-            this.$store.getters.getOffer(this.$route.params.id) ||
+            this.$store.getters.getOffer(this.offerId) ||
             (await this.getOfferFromAPI());
 
         if (data) {
