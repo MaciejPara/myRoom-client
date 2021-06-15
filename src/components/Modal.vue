@@ -33,12 +33,21 @@
                             <div class="field">
                                 <input v-model="email" placeholder="email" />
                             </div>
+                            <div class="errors">
+                                <p
+                                    v-for="(error, index) in errors"
+                                    :key="index"
+                                >
+                                    {{ error }}
+                                </p>
+                            </div>
                             <div class="field">
                                 <h3>Choose date:</h3>
                                 <v-date-picker
                                     locale="en"
                                     v-model="date"
                                     :is-range="true"
+                                    :min-date="new Date()"
                                 />
                             </div>
                             <div class="field">
@@ -96,6 +105,12 @@ export default {
             type: String,
             default: "",
         },
+        errors: {
+            type: Object,
+            email: {
+                type: String,
+            },
+        },
     },
     data() {
         return {
@@ -149,7 +164,7 @@ export default {
                 price,
             });
 
-            // this.clearForm();
+            this.clearForm();
         },
     },
 };
@@ -203,6 +218,12 @@ export default {
             font-size: 1.2rem;
         }
     }
+}
+
+.errors {
+    color: red;
+    text-align: center;
+    font-size: 20px;
 }
 
 .modal-footer {

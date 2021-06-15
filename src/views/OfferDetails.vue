@@ -58,6 +58,7 @@
             :error-message="errorMessage"
             :price-per-day="data.pricePerDay"
             :currency="data.currency"
+            :errors="errors"
         />
     </div>
 </template>
@@ -115,26 +116,23 @@ export default {
                 ...rest,
                 offerId,
             };
-            const error = {};
+            this.errors = {};
 
             if (this.isEmailValid(email)) {
                 result.email = email;
             } else {
-                error.email = `Email ${defaultRequired}`;
+                this.errors.email = `Email ${defaultRequired}`;
             }
 
             if (this.isDateValid(date)) {
                 result.date = date;
             }
 
-            if (Object.keys(error).length === 0) {
+            if (Object.keys(this.errors).length === 0) {
                 this.sendDataToAPI(result);
             }
-            // this.closeModal();
         },
         async sendDataToAPI(data) {
-            console.log("sent to api ::: ", data);
-
             try {
                 const req = await fetch(`http://127.0.0.1:3000/order`, {
                     method: "post",
